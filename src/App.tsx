@@ -15,7 +15,14 @@ import { AdminDashboard } from './components/AdminDashboard';
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
+  const [currentHash, setCurrentHash] = useState(window.location.hash);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onHashChange = () => setCurrentHash(window.location.hash);
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   const sections = [
     { id: 'home', component: <Hero /> },
@@ -60,7 +67,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {!showIntro && window.location.hash !== '#/admin' && (
+      {!showIntro && currentHash !== '#/admin' && (
         <AncientScrollBackground>
           <motion.div
             initial={{ opacity: 0 }}
@@ -83,7 +90,7 @@ export default function App() {
         </AncientScrollBackground>
       )}
 
-      {window.location.hash === '#/admin' && <AdminDashboard />}
+      {currentHash === '#/admin' && <AdminDashboard />}
     </div>
   );
 }
