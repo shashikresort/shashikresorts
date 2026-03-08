@@ -12,10 +12,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleNavigate = (sectionId: string) => {
-    if (sectionId === 'admin') {
-      window.location.hash = '#/admin';
-      return;
-    }
     onNavigate(sectionId);
   };
 

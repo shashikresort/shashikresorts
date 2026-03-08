@@ -20,7 +20,11 @@ interface Booking {
   created_at: string;
 }
 
-export const AdminDashboard: React.FC = () => {
+interface AdminDashboardProps {
+  onExit: () => void;
+}
+
+export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onExit }) => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -77,7 +81,7 @@ export const AdminDashboard: React.FC = () => {
     sessionStorage.removeItem('ghvr_admin_auth');
     setLoginUsername('');
     setLoginPassword('');
-    window.location.hash = ''; // Return to main site natively
+    onExit();
   };
 
   const handleStatusChange = (id: number, newStatus: string) => {
@@ -167,9 +171,9 @@ export const AdminDashboard: React.FC = () => {
             >
               Sign In Securely
             </button>
-            <button
+             <button
                type="button"
-               onClick={() => window.location.hash = ''} 
+               onClick={onExit} 
                className="w-full bg-transparent hover:bg-black/5 text-[#1a1a1a]/60 hover:text-[#1a1a1a] p-4 justify-center items-center flex rounded-xl font-bold transition-colors"
              >
                Return to Website

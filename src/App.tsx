@@ -15,14 +15,8 @@ import { AdminDashboard } from './components/AdminDashboard';
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
-  const [currentHash, setCurrentHash] = useState(window.location.hash);
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const onHashChange = () => setCurrentHash(window.location.hash);
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
 
   const sections = [
     { id: 'home', component: <Hero /> },
@@ -34,6 +28,11 @@ export default function App() {
   ];
 
   const handleNavigate = (sectionId: string) => {
+    if (sectionId === 'admin') {
+      setShowAdminDashboard(true);
+      return;
+    }
+    setShowAdminDashboard(false);
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
@@ -67,7 +66,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {!showIntro && currentHash !== '#/admin' && (
+      {!showIntro && !showAdminDashboard && (
         <AncientScrollBackground>
           <motion.div
             initial={{ opacity: 0 }}
@@ -90,7 +89,7 @@ export default function App() {
         </AncientScrollBackground>
       )}
 
-      {currentHash === '#/admin' && <AdminDashboard />}
+      {showAdminDashboard && <AdminDashboard onExit={() => setShowAdminDashboard(false)} />}
     </div>
   );
 }
