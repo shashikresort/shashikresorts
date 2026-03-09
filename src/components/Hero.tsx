@@ -1,96 +1,66 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ChevronRight, Play } from 'lucide-react';
 import { GradientButton } from './ui/gradient-button';
 
 export const Hero: React.FC = () => {
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#f5f2ed]">
-      {/* Background Image with Parallax/Zoom effect */}
-      <motion.div 
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${(import.meta as any).env.BASE_URL}images/media__1773073752994.jpg')` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#f5f2ed]" />
-      </motion.div>
-
-      {/* Interactive Elements: Floating Leaves */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ 
-              x: Math.random() * 100 + "%", 
-              y: -20, 
-              rotate: 0,
-              opacity: 0 
-            }}
-            animate={{ 
-              y: "110vh", 
-              rotate: 360,
-              opacity: [0, 1, 1, 0]
-            }}
-            transition={{ 
-              duration: 10 + Math.random() * 10, 
-              repeat: Infinity, 
-              delay: Math.random() * 10,
-              ease: "linear"
-            }}
-            className="absolute text-emerald-800/20 text-2xl"
-          >
-            🍃
-          </motion.div>
-        ))}
+    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#222222]">
+      
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0 w-full h-full">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="object-cover w-full h-full opacity-60"
+        >
+          <source 
+            src="https://assets.mixkit.co/videos/preview/mixkit-luxury-resort-with-swimming-pool-and-palm-trees-42646-large.mp4" 
+            type="video/mp4" 
+          />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1f4d3e]/60 via-black/40 to-[#f8f6f2]" />
       </div>
 
-      <div className="relative z-10 text-center px-6 max-w-4xl">
+      {/* Hero Content */}
+      <div className="relative z-10 text-center px-6 max-w-4xl pt-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+          className="flex flex-col items-center"
         >
-          <span className="inline-block px-4 py-1 rounded-full bg-white/30 backdrop-blur-md border border-white/50 text-sm font-medium text-[#1a1a1a] mb-6 uppercase tracking-widest">
-            Village Wedding & Celebration Resort
+          <span className="inline-block px-5 py-2 rounded-full border border-[#c19b6a]/50 text-xs font-medium text-[#f8f6f2] mb-8 uppercase tracking-[0.2em] backdrop-blur-sm">
+            5-Star Village Resort
           </span>
-          <h1 className="text-6xl md:text-8xl font-serif font-bold text-[#1a1a1a] mb-8 leading-[0.9] tracking-tighter">
-            Where <span className="italic font-light text-[#5A5A40]">Celebrations</span> <br />
-            Meet Nature
+          <h1 className="text-6xl md:text-8xl font-serif font-bold text-[#f8f6f2] mb-6 leading-[1.1] tracking-wide shadow-black drop-shadow-lg">
+            Escape Into Nature
           </h1>
-          <p className="text-lg md:text-xl text-[#1a1a1a]/70 mb-10 max-w-2xl mx-auto font-serif">
-            Experience the perfect blend of village charm and modern luxury. 
-            Your dream destination for weddings, family getaways, and peaceful retreats.
+          <p className="text-lg md:text-2xl text-[#f8f6f2]/90 mb-12 max-w-2xl mx-auto font-serif tracking-wide drop-shadow-md">
+            Luxury cottages surrounded by peaceful landscapes.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <GradientButton 
-              onClick={() => window.dispatchEvent(new Event('openBooking'))}
-              className="gap-2"
-            >
-              Check Availability
-              <ChevronRight className="group-hover:translate-x-1 transition-transform" />
-            </GradientButton>
-            <GradientButton variant="variant" className="gap-3 group">
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white transition-all text-white group-hover:text-black">
-                <Play size={14} fill="currentColor" />
-              </div>
-              Explore Resort
-            </GradientButton>
-          </div>
+          
+          <GradientButton 
+            onClick={() => {
+              const element = document.getElementById('rooms');
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="px-10 py-5 text-lg shadow-2xl transition-transform hover:-translate-y-1"
+            style={{
+              '--color-1': '#1f4d3e',
+              '--color-2': '#173d31', 
+              '--color-3': '#c19b6a',
+              '--color-4': '#a68254'
+            } as React.CSSProperties}
+          >
+            Explore Resort
+          </GradientButton>
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-[10px] uppercase tracking-[0.3em] text-[#1a1a1a]/40 font-bold">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-[#5A5A40] to-transparent" />
-      </motion.div>
     </section>
   );
 };

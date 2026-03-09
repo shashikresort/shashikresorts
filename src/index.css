@@ -12,7 +12,7 @@
   }
   
   body {
-    @apply font-sans antialiased text-[#1a1a1a] bg-[#f5f2ed];
+    @apply font-sans antialiased text-[#222222] bg-[#f8f6f2];
   }
 
   h1, h2, h3, h4, .font-serif {
@@ -227,8 +227,8 @@
 /* Custom Calendar Styling */
 .booking-calendar {
   --rdp-cell-size: 40px;
-  --rdp-accent-color: #5A5A40;
-  --rdp-background-color: #f5f2ed;
+  --rdp-accent-color: #1f4d3e;
+  --rdp-background-color: #f8f6f2;
   margin: 0;
 }
 

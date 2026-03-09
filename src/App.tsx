@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { IntroAnimation } from './components/IntroAnimation';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { BookingBar } from './components/BookingBar';
 import { Rooms } from './components/Rooms';
 import { Weddings } from './components/Weddings';
 import { Activities } from './components/Activities';
@@ -60,7 +61,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="bg-transparent selection:bg-[#5A5A40] selection:text-white">
+    <div className="bg-transparent selection:bg-[#1f4d3e] selection:text-white">
       <AnimatePresence>
         {showIntro && (
           <IntroAnimation onComplete={() => setShowIntro(false)} />
@@ -79,7 +80,9 @@ export default function App() {
             {!showAdminDashboard && (
               <>
                 <main ref={scrollRef}>
-                  {sections.map((section) => (
+                  <div key="home" id="home"><Hero /></div>
+                  <BookingBar />
+                  {sections.filter(s => s.id !== 'home').map((section) => (
                     <div key={section.id} id={section.id}>
                       {section.component}
                     </div>

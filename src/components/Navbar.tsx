@@ -30,13 +30,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="pointer-events-auto cursor-pointer flex items-center gap-2"
+        className="pointer-events-auto cursor-pointer flex items-center gap-3 bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border border-black/5 shadow-sm hover:scale-105 transition-transform"
         onClick={() => onNavigate('home')}
       >
-        <div className="w-10 h-10 bg-[#5A5A40] rounded-full flex items-center justify-center text-white text-xl">
+        <div className="w-10 h-10 bg-[#1f4d3e] rounded-full flex items-center justify-center text-white text-xl">
           🌿
         </div>
-        <span className="font-serif font-bold text-xl tracking-tight text-[#1a1a1a]">Shashi Kumar Resort</span>
+        <span className="font-serif font-bold text-xl tracking-tight text-[#1f4d3e]">Shashi Kumar Resort</span>
       </motion.div>
 
       {/* Desktop Nav */}
@@ -50,11 +50,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
               activeSection === item.id ? "text-[#5A5A40]" : "text-[#1a1a1a]/60 hover:text-[#1a1a1a]"
             )}
           >
-            {item.label}
+            <span className="relative z-10 transition-colors uppercase tracking-widest text-xs">
+              {item.label}
+            </span>
             {activeSection === item.id && (
               <motion.div 
                 layoutId="nav-underline"
-                className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#5A5A40]"
+                className="absolute inset-0 bg-[#f0ebd8] rounded-full -z-0"
               />
             )}
           </button>
@@ -88,8 +90,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => 
                   setIsOpen(false);
                 }}
                 className={cn(
-                  "text-2xl font-serif text-left",
-                  activeSection === item.id ? "text-[#5A5A40] italic underline underline-offset-8" : "text-[#1a1a1a]"
+                  "text-2xl font-serif text-left transition-colors",
+                  activeSection === item.id ? "text-[#c19b6a] italic" : "text-[#222222]"
                 )}
               >
                 {item.label}

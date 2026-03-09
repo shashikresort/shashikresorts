@@ -37,12 +37,12 @@ export const Gallery: React.FC = () => {
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-2 text-[#5A5A40] mb-4"
+              className="flex items-center gap-2 text-[#c19b6a] mb-4"
             >
               <Camera size={20} />
               <span className="text-sm font-bold uppercase tracking-widest">Visual Journey</span>
             </motion.div>
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-[#1a1a1a]">Captured <span className="italic font-light text-[#5A5A40]">Moments</span></h2>
+            <h2 className="text-5xl md:text-6xl font-serif font-bold text-[#222222]">Captured <span className="italic font-light text-[#1f4d3e]">Moments</span></h2>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -54,10 +54,10 @@ export const Gallery: React.FC = () => {
                   handleCapture();
                 }}
                 className={cn(
-                  "px-6 py-2 rounded-full text-sm font-medium transition-all",
+                  "px-6 py-2 rounded-full text-sm font-medium transition-all shadow-sm",
                   activeCategory === cat 
-                    ? "bg-[#5A5A40] text-white shadow-lg" 
-                    : "bg-white text-[#1a1a1a]/60 hover:bg-white/80"
+                    ? "bg-[#1f4d3e] text-white" 
+                    : "bg-white text-[#222222]/60 hover:bg-white/80"
                 )}
               >
                 {cat}

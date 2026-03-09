@@ -5,61 +5,61 @@ import { GradientButton } from './ui/gradient-button';
 
 export const Contact: React.FC = () => {
   return (
-    <section className="py-32 px-6 bg-[#f5f2ed]">
+    <section id="contact" className="py-32 px-6 bg-[#f8f6f2]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           <div>
             <motion.span 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              className="text-[10px] uppercase tracking-[0.4em] text-[#5A5A40] font-bold mb-4 block"
+              className="text-[10px] uppercase tracking-[0.4em] text-[#c19b6a] font-bold mb-4 block"
             >
               Get in Touch
             </motion.span>
-            <h2 className="text-5xl md:text-7xl font-serif font-bold text-[#1a1a1a] mb-8">Let's Plan Your <span className="italic font-light text-[#5A5A40]">Event</span></h2>
-            <p className="text-[#1a1a1a]/60 text-lg mb-12 max-w-md">
+            <h2 className="text-5xl md:text-7xl font-serif font-bold text-[#222222] mb-8">Let's Plan Your <span className="italic font-light text-[#1f4d3e]">Event</span></h2>
+            <p className="text-[#222222]/80 text-lg mb-12 max-w-md font-serif">
               Have questions about our packages or want to book a site visit? 
               Our team is here to help you create the perfect celebration.
             </p>
 
             <div className="space-y-8">
               <div className="flex items-center gap-6 group cursor-pointer">
-                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#5A5A40] group-hover:bg-[#5A5A40] group-hover:text-white transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#1f4d3e] group-hover:bg-[#1f4d3e] group-hover:text-white transition-all">
                   <Phone size={24} className="group-hover:animate-bounce" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 font-bold">Call Us</p>
-                  <p className="text-xl font-serif font-bold text-[#1a1a1a]">+91 7569262463</p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#222222]/40 font-bold">Call Us</p>
+                  <p className="text-xl font-serif font-bold text-[#222222]">+91 7569262463</p>
                 </div>
               </div>
               <div className="flex items-center gap-6 group cursor-pointer">
-                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#5A5A40] group-hover:bg-[#5A5A40] group-hover:text-white transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#1f4d3e] group-hover:bg-[#1f4d3e] group-hover:text-white transition-all">
                   <Mail size={24} />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 font-bold">Email Us</p>
-                  <p className="text-xl font-serif font-bold text-[#1a1a1a]">shashikumar@gmail.com</p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#222222]/40 font-bold">Email Us</p>
+                  <p className="text-xl font-serif font-bold text-[#222222]">shashikumar@gmail.com</p>
                 </div>
               </div>
               <div className="flex items-center gap-6 group cursor-pointer">
-                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#5A5A40] group-hover:bg-[#5A5A40] group-hover:text-white transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#1f4d3e] group-hover:bg-[#1f4d3e] group-hover:text-white transition-all">
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-[#1a1a1a]/40 font-bold">Location</p>
-                  <p className="text-xl font-serif font-bold text-[#1a1a1a]">Hanmakonda Room</p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#222222]/40 font-bold">Location</p>
+                  <p className="text-xl font-serif font-bold text-[#222222]">Hanmakonda Room</p>
                 </div>
               </div>
             </div>
 
             <div className="flex gap-4 mt-16">
-              <a href="https://www.instagram.com/its_kumardora_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-white transition-all text-[#1a1a1a]/60 hover:text-[#5A5A40]">
+              <a href="https://www.instagram.com/its_kumardora_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-white transition-all text-[#222222]/60 hover:text-[#c19b6a]">
                 <Instagram size={20} />
               </a>
-              <button className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-white transition-all text-[#1a1a1a]/60 hover:text-[#5A5A40]">
+              <button className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-white transition-all text-[#222222]/60 hover:text-[#c19b6a]">
                 <Facebook size={20} />
               </button>
-              <button className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-white transition-all text-[#1a1a1a]/60 hover:text-[#5A5A40]">
+              <button className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-white transition-all text-[#222222]/60 hover:text-[#c19b6a]">
                 <Youtube size={20} />
               </button>
             </div>
