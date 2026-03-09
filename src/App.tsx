@@ -11,6 +11,7 @@ import { Contact, Footer } from './components/Contact';
 import { BookingSystem } from './components/BookingSystem';
 import { AncientScrollBackground } from './components/AncientScrollBackground';
 import { AdminDashboard } from './components/AdminDashboard';
+import { LegalPages } from './components/LegalPages';
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -85,6 +86,7 @@ export default function App() {
 
             <Footer />
             <BookingSystem />
+            <LegalPages />
           </motion.div>
         </AncientScrollBackground>
       )}

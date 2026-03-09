@@ -148,19 +148,16 @@ export const Footer: React.FC = () => {
             <ul className="space-y-4 text-white/60 text-sm">
               <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
               <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Rooms & Suites</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Wedding Packages</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Gallery</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-sm font-bold uppercase tracking-widest mb-8 text-[#5A5A40]">Legal</h4>
-            <ul className="space-y-4 text-white/60 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Cancellation Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Cookie Policy</a></li>
+            <ul className="space-y-4 text-white/60 text-sm flex flex-col items-start gap-4">
+              <li><button onClick={() => window.dispatchEvent(new CustomEvent('openPolicy', { detail: 'privacy' }))} className="hover:text-white transition-colors">Privacy Policy</button></li>
+              <li><button onClick={() => window.dispatchEvent(new CustomEvent('openPolicy', { detail: 'terms' }))} className="hover:text-white transition-colors">Terms of Service</button></li>
+              <li><button onClick={() => window.dispatchEvent(new CustomEvent('openPolicy', { detail: 'cancellation' }))} className="hover:text-white transition-colors">Cancellation Policy</button></li>
+              <li><button onClick={() => window.dispatchEvent(new CustomEvent('openPolicy', { detail: 'cookie' }))} className="hover:text-white transition-colors">Cookie Policy</button></li>
             </ul>
           </div>
         </div>

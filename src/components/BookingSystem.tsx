@@ -21,8 +21,24 @@ export const BookingSystem: React.FC = () => {
   });
   const [paymentMethod, setPaymentMethod] = useState('');
 
+  const totalAmount = React.useMemo(() => {
+    if (formData.roomType.includes('Duplex')) return 4000;
+    if (formData.roomType.includes('Guest')) return 2500;
+    if (formData.roomType.includes('Full')) return 15000;
+    return 5000; // default advance
+  }, [formData.roomType]);
+
   useEffect(() => {
-    const handleOpenBooking = () => setIsOpen(true);
+    const handleOpenBooking = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      setIsOpen(true);
+      if (customEvent.detail && customEvent.detail.roomType) {
+        setFormData(prev => ({ ...prev, roomType: customEvent.detail.roomType }));
+        if (customEvent.detail.skipToPayment) {
+          setStep(3);
+        }
+      }
+    };
     window.addEventListener('openBooking', handleOpenBooking);
     return () => window.removeEventListener('openBooking', handleOpenBooking);
   }, []);
@@ -37,6 +53,11 @@ export const BookingSystem: React.FC = () => {
     if (step === 3 && paymentMethod) {
       setIsLoading(true);
       
+      if (paymentMethod === 'UPI') {
+        const upiUrl = `upi://pay?pa=garuda123@ybl&pn=GreenHaven&am=${totalAmount}&cu=INR`;
+        window.location.href = upiUrl;
+      }
+
       // MOCK BACKEND: Save to localStorage instead of API
       setTimeout(() => {
         try {
@@ -150,8 +171,8 @@ export const BookingSystem: React.FC = () => {
                         <CreditCard size={20} />
                       </div>
                       <div>
-                        <p className="text-[10px] uppercase tracking-widest text-[#d4c5a9]">Advance Booking</p>
-                        <p className="text-sm font-bold text-white">₹5,000</p>
+                        <p className="text-[10px] uppercase tracking-widest text-[#d4c5a9]">Payment Amount</p>
+                        <p className="text-sm font-bold text-white">₹{totalAmount.toLocaleString()}</p>
                       </div>
                      </div>
                   )}
@@ -287,8 +308,8 @@ export const BookingSystem: React.FC = () => {
                       exit={{ opacity: 0, x: -20 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-2xl font-serif font-bold mb-2 text-[#1a1a1a]">Advance Payment</h3>
-                      <p className="text-sm text-[#1a1a1a]/60 mb-8">Secure your booking by making an advance payment of ₹5,000.</p>
+                      <h3 className="text-2xl font-serif font-bold mb-2 text-[#1a1a1a]">Secure Payment</h3>
+                      <p className="text-sm text-[#1a1a1a]/60 mb-8">Secure your booking by making a payment of ₹{totalAmount.toLocaleString()}.</p>
                       
                       <form onSubmit={handleBookingSubmit} className="space-y-4">
                         <div className="grid gap-4">
@@ -322,7 +343,7 @@ export const BookingSystem: React.FC = () => {
                             Back
                           </button>
                           <GradientButton disabled={isLoading || !paymentMethod} type="submit" className="flex-[2]">
-                            {isLoading ? 'Processing...' : 'Pay ₹5,000 & Confirm Booking'}
+                            {isLoading ? 'Processing...' : (paymentMethod === 'UPI' ? `Pay ₹${totalAmount.toLocaleString()} via UPI App` : `Pay ₹${totalAmount.toLocaleString()} & Confirm`)}
                           </GradientButton>
                         </div>
                       </form>

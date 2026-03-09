@@ -6,13 +6,13 @@ import { cn } from '../utils/cn';
 const categories = ['All', 'Resort', 'Rooms', 'Pool', 'Weddings', 'Activities'];
 
 const photos = [
-  { id: 2, category: 'Rooms', url: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&q=80&w=800', title: 'Premium Duplex' },
-  { id: 3, category: 'Pool', url: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=800', title: 'Infinity Pool' },
-  { id: 4, category: 'Weddings', url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800', title: 'Lawn Setup' },
-  { id: 5, category: 'Activities', url: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&q=80&w=800', title: 'Box Cricket' },
-  { id: 6, category: 'Resort', url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800', title: 'Night View' },
-  { id: 7, category: 'Weddings', url: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800', title: 'Reception Hall' },
-  { id: 8, category: 'Rooms', url: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=800', title: 'Guest Suite' },
+  { id: 2, category: 'Rooms', url: `${(import.meta as any).env.BASE_URL}images/media__1773073753034.jpg`, title: 'Premium Duplex' },
+  { id: 3, category: 'Pool', url: `${(import.meta as any).env.BASE_URL}images/media__1773073812058.jpg`, title: 'Infinity Pool' },
+  { id: 4, category: 'Weddings', url: `${(import.meta as any).env.BASE_URL}images/media__1773073753034.jpg`, title: 'Lawn Setup' },
+  { id: 5, category: 'Activities', url: `${(import.meta as any).env.BASE_URL}images/media__1773073790876.jpg`, title: 'Box Cricket' },
+  { id: 6, category: 'Resort', url: `${(import.meta as any).env.BASE_URL}images/media__1773073752994.jpg`, title: 'Night View' },
+  { id: 7, category: 'Weddings', url: `${(import.meta as any).env.BASE_URL}images/media__1773073812025.jpg`, title: 'Reception Hall' },
+  { id: 8, category: 'Rooms', url: `${(import.meta as any).env.BASE_URL}images/media__1773073812025.jpg`, title: 'Guest Suite' },
 ];
 
 export const Gallery: React.FC = () => {

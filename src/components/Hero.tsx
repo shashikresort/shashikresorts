@@ -11,9 +11,10 @@ export const Hero: React.FC = () => {
         initial={{ scale: 1.1 }}
         animate={{ scale: 1 }}
         transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{ backgroundImage: `url('${(import.meta as any).env.BASE_URL}images/media__1773073752994.jpg')` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[#f5f2ed]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#f5f2ed]" />
       </motion.div>
 
       {/* Interactive Elements: Floating Leaves */}

@@ -8,7 +8,7 @@ const activities = [
     icon: <Waves size={32} />,
     title: 'Swimming Pool',
     description: 'Relax in our crystal clear infinity pool with a view of the village fields.',
-    image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=800'
+    image: `${(import.meta as any).env.BASE_URL}images/media__1773073812058.jpg`
   },
   {
     icon: <Trophy size={32} />,
@@ -26,7 +26,7 @@ const activities = [
     icon: <Trees size={32} />,
     title: 'Nature Walks',
     description: 'Explore the serene village environment with guided morning nature walks.',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800'
+    image: `${(import.meta as any).env.BASE_URL}images/media__1773073790876.jpg`
   }
 ];
 

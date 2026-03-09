@@ -11,7 +11,7 @@ const rooms = [
     description: 'Designed for bride & groom families, featuring a spacious hall and private balcony with village views.',
     price: '₹3500 - ₹4500',
     amenities: ['Air Conditioning', 'Private Balcony', 'Spacious Hall', 'Premium Bedding', 'Smart TV'],
-    image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&q=80&w=1200'
+    image: `${(import.meta as any).env.BASE_URL}images/media__1773073753034.jpg`
   },
   {
     id: 'guest',
@@ -19,7 +19,7 @@ const rooms = [
     description: 'Perfect for friends and cousins, these rooms offer comfort and a shared hall for group gatherings.',
     price: '₹2500 - ₹3000',
     amenities: ['Air Conditioning', 'Shared Hall', 'Comfortable Bedding', 'Garden View', 'Guest Assistance'],
-    image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=1200'
+    image: `${(import.meta as any).env.BASE_URL}images/media__1773073812025.jpg`
   }
 ];
 
@@ -192,7 +192,7 @@ export const Rooms: React.FC = () => {
                     <p className="text-xs text-[#1a1a1a]/40 uppercase tracking-widest mb-1">Starting from</p>
                     <p className="text-3xl font-serif font-bold text-[#1a1a1a]">{selectedRoom.price}</p>
                   </div>
-                  <GradientButton onClick={() => window.dispatchEvent(new Event('openBooking'))}>
+                  <GradientButton onClick={() => window.dispatchEvent(new CustomEvent('openBooking', { detail: { roomType: selectedRoom.name, skipToPayment: true } }))}>
                     Book This Room
                   </GradientButton>
                 </div>
