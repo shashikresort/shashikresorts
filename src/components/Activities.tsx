@@ -32,19 +32,19 @@ const activities = [
 
 export const Activities: React.FC = () => {
   return (
-    <section id="activities" className="py-32 px-6 bg-[#f8f6f2]">
-      <div className="max-w-7xl mx-auto">
+    <section id="activities" className="py-32 px-6 bg-transparent relative z-10">
+      <div className="max-w-7xl mx-auto backdrop-blur-md bg-white/10 p-10 rounded-[3rem] border border-white/20">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div className="max-w-2xl">
             <motion.span 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              className="text-[10px] uppercase tracking-[0.4em] text-[#c19b6a] font-bold mb-4 block"
+              className="text-[10px] uppercase tracking-[0.4em] text-[#c19b6a] font-bold mb-4 block drop-shadow-md"
             >
               Recreation
             </motion.span>
-            <h2 className="text-5xl md:text-7xl font-serif font-bold text-[#222222] mb-6">Play, Relax, <span className="italic font-light text-[#1f4d3e]">Celebrate</span></h2>
-            <p className="text-[#222222]/80 text-lg font-serif">
+            <h2 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-lg">Play, Relax, <span className="italic font-light text-[#c19b6a]">Celebrate</span></h2>
+            <p className="text-white/90 text-lg font-serif drop-shadow-md">
               From high-energy sports to peaceful relaxation, we have something for everyone.
             </p>
           </div>
@@ -72,12 +72,12 @@ export const Activities: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               
-              <div className="relative mt-auto p-10 text-white">
-                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center mb-6 group-hover:bg-[#1f4d3e] group-hover:border-[#1f4d3e] transition-all duration-500">
+              <div className="relative mt-auto p-10 text-white z-10">
+                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center mb-6 group-hover:bg-[#c19b6a] group-hover:border-[#c19b6a] group-hover:text-black transition-all duration-500 shadow-lg">
                   {activity.icon}
                 </div>
-                <h3 className="text-2xl font-serif font-bold mb-4">{activity.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <h3 className="text-2xl font-serif font-bold mb-4 drop-shadow-md">{activity.title}</h3>
+                <p className="text-white/90 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 drop-shadow-md">
                   {activity.description}
                 </p>
               </div>

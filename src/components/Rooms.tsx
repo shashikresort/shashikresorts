@@ -36,18 +36,18 @@ export const Rooms: React.FC = () => {
   };
 
   return (
-    <section id="rooms" className="py-24 px-6 bg-[#f8f6f2] overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section id="rooms" className="py-24 px-6 bg-transparent relative z-10">
+      <div className="max-w-7xl mx-auto backdrop-blur-md bg-white/10 p-10 rounded-[3rem] border border-white/20">
         <div className="text-center mb-20">
           <motion.span 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-[10px] uppercase tracking-[0.4em] text-[#c19b6a] font-bold mb-4 block"
+            className="text-[10px] uppercase tracking-[0.4em] text-[#c19b6a] font-bold mb-4 block drop-shadow-md"
           >
             Accommodation
           </motion.span>
-          <h2 className="text-5xl md:text-7xl font-serif font-bold text-[#222222] mb-6">Luxury <span className="italic font-light text-[#1f4d3e]">Cottages</span></h2>
-          <p className="text-[#222222]/80 max-w-2xl mx-auto text-lg font-serif">
+          <h2 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 drop-shadow-lg">Luxury <span className="italic font-light text-[#c19b6a]">Cottages</span></h2>
+          <p className="text-white/90 max-w-2xl mx-auto text-lg font-serif drop-shadow-md">
             Our rooms are designed to provide a peaceful retreat while keeping you close to nature.
           </p>
         </div>
@@ -137,7 +137,7 @@ export const Rooms: React.FC = () => {
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 100, opacity: 0 }}
-              className="relative max-w-6xl w-full bg-white rounded-[3rem] overflow-hidden flex flex-col md:flex-row shadow-2xl"
+              className="relative max-w-6xl w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-[3rem] overflow-hidden flex flex-col md:flex-row shadow-2xl"
             >
               <div className="w-full md:w-1/2 h-[400px] md:h-auto">
                 <img 
@@ -147,50 +147,50 @@ export const Rooms: React.FC = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="flex-1 p-10 md:p-16 flex flex-col justify-center">
+              <div className="flex-1 p-10 md:p-16 flex flex-col justify-center bg-black/40 text-white">
                 <button 
                   onClick={() => setSelectedRoom(null)}
-                  className="absolute top-8 right-8 text-[#222222]/40 hover:text-[#222222] transition-colors"
+                  className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors"
                 >
                   Close
                 </button>
                 <span className="text-[10px] uppercase tracking-widest text-[#c19b6a] font-bold mb-4 block">Room Details</span>
-                <h3 className="text-4xl md:text-5xl font-serif font-bold text-[#222222] mb-6">{selectedRoom.name}</h3>
-                <p className="text-[#222222]/80 mb-10 leading-relaxed text-lg">
+                <h3 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">{selectedRoom.name}</h3>
+                <p className="text-white/80 mb-10 leading-relaxed text-lg">
                   {selectedRoom.description}
                 </p>
                 
                 <div className="grid grid-cols-2 gap-8 mb-12">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-[#1f4d3e]/5 flex items-center justify-center text-[#1f4d3e]">
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
                       <Wind size={24} />
                     </div>
                     <span className="text-sm font-medium">Air Conditioning</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-[#1f4d3e]/5 flex items-center justify-center text-[#1f4d3e]">
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
                       <Tv size={24} />
                     </div>
                     <span className="text-sm font-medium">Smart TV</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-[#1f4d3e]/5 flex items-center justify-center text-[#1f4d3e]">
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
                       <Coffee size={24} />
                     </div>
                     <span className="text-sm font-medium">Coffee Maker</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-[#1f4d3e]/5 flex items-center justify-center text-[#1f4d3e]">
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
                       <Bath size={24} />
                     </div>
                     <span className="text-sm font-medium">Private Bath</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-10 border-t border-black/5">
+                <div className="flex items-center justify-between pt-10 border-t border-white/20">
                   <div>
-                    <p className="text-xs text-[#222222]/40 uppercase tracking-widest mb-1">Starting from</p>
-                    <p className="text-3xl font-serif font-bold text-[#222222]">{selectedRoom.price}</p>
+                    <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Starting from</p>
+                    <p className="text-3xl font-serif font-bold text-white">{selectedRoom.price}</p>
                   </div>
                   <GradientButton onClick={() => window.dispatchEvent(new CustomEvent('openBooking', { detail: { roomType: selectedRoom.name, skipToPayment: true } }))}>
                     Book This Room

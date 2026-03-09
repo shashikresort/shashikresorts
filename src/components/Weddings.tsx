@@ -5,7 +5,10 @@ import { GradientButton } from './ui/gradient-button';
 
 export const Weddings: React.FC = () => {
   return (
-    <section className="relative py-32 px-6 bg-[#1a1a1a] text-white overflow-hidden">
+    <section className="relative py-32 px-6 bg-transparent text-white overflow-hidden z-10">
+      {/* Container Background */}
+      <div className="absolute inset-x-4 inset-y-8 max-w-7xl mx-auto backdrop-blur-xl bg-black/40 rounded-[4rem] border border-white/20 -z-10" />
+
       {/* Flower Petals Animation */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -35,7 +38,7 @@ export const Weddings: React.FC = () => {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}

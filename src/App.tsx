@@ -60,6 +60,19 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Handle direct loading to /#admin
+    const checkHash = () => {
+      if (window.location.hash.includes('admin') || window.location.pathname.includes('admin')) {
+        setShowAdminDashboard(true);
+        setShowIntro(false);
+      }
+    };
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
+
   return (
     <div className="bg-transparent selection:bg-[#1f4d3e] selection:text-white">
       <AnimatePresence>
