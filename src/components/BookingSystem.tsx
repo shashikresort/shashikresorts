@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon, Users, CreditCard, Smartphone, CheckCircle2, X } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import { GradientButton } from './ui/gradient-button';
 import { cn } from '../utils/cn';
 
@@ -20,6 +21,8 @@ export const BookingSystem: React.FC = () => {
     eventType: 'Stay Only'
   });
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [isShowingQR, setIsShowingQR] = useState(false);
+  const [qrTimer, setQrTimer] = useState<number | null>(null);
 
   const totalAmount = React.useMemo(() => {
     if (formData.roomType.includes('Duplex')) return 4000;
@@ -43,6 +46,66 @@ export const BookingSystem: React.FC = () => {
     return () => window.removeEventListener('openBooking', handleOpenBooking);
   }, []);
 
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (qrTimer !== null && qrTimer > 0) {
+      interval = setInterval(() => {
+        setQrTimer((prev) => (prev ? prev - 1 : 0));
+      }, 1000);
+    } else if (qrTimer === 0) {
+      setQrTimer(null);
+      setIsShowingQR(false);
+      alert("Payment scan window expired. Please try again.");
+    }
+    return () => clearInterval(interval);
+  }, [qrTimer]);
+
+  const processPayment = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      try {
+        const newBooking = {
+          id: Date.now(),
+          ...formData,
+          checkIn: selectedRange.from ? selectedRange.from.toISOString() : '',
+          checkOut: selectedRange.to ? selectedRange.to.toISOString() : '',
+          paymentMethod,
+          status: paymentMethod === 'UPI' ? 'Pending Verification' : 'Advance Paid (Card)',
+          created_at: new Date().toISOString()
+        };
+        
+        const existingBookingsStr = localStorage.getItem('ghvr_bookings');
+        const existingBookings = existingBookingsStr ? JSON.parse(existingBookingsStr) : [];
+        
+        localStorage.setItem('ghvr_bookings', JSON.stringify([newBooking, ...existingBookings]));
+        
+        setStep(4); // Show success
+        setIsShowingQR(false);
+        setQrTimer(null);
+        
+        setTimeout(() => {
+          setIsOpen(false);
+          setStep(1);
+          setPaymentMethod('');
+          setFormData({
+            name: '',
+            phone: '',
+            email: '',
+            guests: '2',
+            roomType: 'Duplex AC Room',
+            eventType: 'Stay Only'
+          });
+        }, 4000);
+
+      } catch (error) {
+        console.error("Booking error", error);
+        alert("Failed to save booking");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 1500); // Simulate network check delay
+  };
+
   const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 2) {
@@ -51,54 +114,14 @@ export const BookingSystem: React.FC = () => {
     }
 
     if (step === 3 && paymentMethod) {
-      setIsLoading(true);
-      
-      if (paymentMethod === 'UPI') {
-        const upiUrl = `upi://pay?pa=garuda123@ybl&pn=GreenHaven&am=${totalAmount}&cu=INR`;
-        window.location.href = upiUrl;
+      if (paymentMethod === 'UPI' && !isShowingQR) {
+        setIsShowingQR(true);
+        setQrTimer(300); // 5 minutes = 300 seconds
+        return;
       }
 
-      // MOCK BACKEND: Save to localStorage instead of API
-      setTimeout(() => {
-        try {
-          const newBooking = {
-            id: Date.now(),
-            ...formData,
-            checkIn: selectedRange.from ? selectedRange.from.toISOString() : '',
-            checkOut: selectedRange.to ? selectedRange.to.toISOString() : '',
-            paymentMethod,
-            status: paymentMethod ? 'Advance Paid' : 'New Inquiry',
-            created_at: new Date().toISOString()
-          };
-          
-          const existingBookingsStr = localStorage.getItem('ghvr_bookings');
-          const existingBookings = existingBookingsStr ? JSON.parse(existingBookingsStr) : [];
-          
-          localStorage.setItem('ghvr_bookings', JSON.stringify([newBooking, ...existingBookings]));
-          
-          setStep(4); // Show success
-          
-          setTimeout(() => {
-            setIsOpen(false);
-            setStep(1);
-            setPaymentMethod('');
-            setFormData({
-              name: '',
-              phone: '',
-              email: '',
-              guests: 2,
-              roomType: 'Duplex AC Room',
-              eventType: 'Stay Only'
-            });
-          }, 4000);
-
-        } catch (error) {
-          console.error("Booking error", error);
-          alert("Failed to save booking");
-        } finally {
-          setIsLoading(false);
-        }
-      }, 1500); // Simulate network delay
+      // If card or if already verifying from QR step
+      processPayment();
     }
   };
 
@@ -311,42 +334,89 @@ export const BookingSystem: React.FC = () => {
                       <h3 className="text-2xl font-serif font-bold mb-2 text-[#1a1a1a]">Secure Payment</h3>
                       <p className="text-sm text-[#1a1a1a]/60 mb-8">Secure your booking by making a payment of ₹{totalAmount.toLocaleString()}.</p>
                       
-                      <form onSubmit={handleBookingSubmit} className="space-y-4">
-                        <div className="grid gap-4">
-                          <label className={cn("flex items-center p-4 border rounded-xl cursor-pointer transition-colors", paymentMethod === 'UPI' ? "border-[#5A5A40] bg-[#5A5A40]/5" : "border-black/10 hover:bg-black/5")}>
-                            <input type="radio" required name="payment" value="UPI" onChange={(e) => setPaymentMethod(e.target.value)} className="hidden" />
-                            <Smartphone className="mr-4 text-[#5A5A40]" />
-                            <div className="flex-1">
-                              <p className="font-bold text-[#1a1a1a]">UPI / QR Code</p>
-                              <p className="text-xs text-[#1a1a1a]/60">Google Pay, PhonePe, Paytm</p>
+                      {isShowingQR ? (
+                        <div className="flex flex-col items-center justify-center space-y-6 py-8 border border-black/10 rounded-2xl bg-white shadow-sm">
+                          <h4 className="font-bold text-[#1a1a1a] text-lg">Scan to Pay</h4>
+                          <div className="p-4 bg-white border-2 border-dashed border-black/20 rounded-xl relative">
+                            <QRCodeSVG 
+                              value={`upi://pay?pa=garuda123@ybl&pn=GreenHaven&am=${totalAmount}&cu=INR`} 
+                              size={200} 
+                            />
+                            {qrTimer === 0 && (
+                              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center font-bold text-rose-500">
+                                EXPIRED
+                              </div>
+                            )}
+                          </div>
+                          
+                          <div className="text-center">
+                            <p className="text-sm text-[#1a1a1a]/60 mb-2">Awaiting payment verification...</p>
+                            <div className="flex items-center justify-center gap-2 text-rose-500 font-bold">
+                              <span>Expires in:</span>
+                              <span className="font-mono text-xl bg-rose-50 px-3 py-1 rounded-lg">
+                                {qrTimer !== null ? `${Math.floor(qrTimer / 60)}:${(qrTimer % 60).toString().padStart(2, '0')}` : '0:00'}
+                              </span>
                             </div>
-                            {paymentMethod === 'UPI' && <CheckCircle2 className="text-[#5A5A40]" />}
-                          </label>
+                          </div>
 
-                          <label className={cn("flex items-center p-4 border rounded-xl cursor-pointer transition-colors", paymentMethod === 'Card' ? "border-[#5A5A40] bg-[#5A5A40]/5" : "border-black/10 hover:bg-black/5")}>
-                            <input type="radio" name="payment" value="Card" onChange={(e) => setPaymentMethod(e.target.value)} className="hidden" />
-                            <CreditCard className="mr-4 text-[#5A5A40]" />
-                            <div className="flex-1">
-                              <p className="font-bold text-[#1a1a1a]">Credit / Debit Card</p>
-                              <p className="text-xs text-[#1a1a1a]/60">Visa, Mastercard, RuPay</p>
-                            </div>
-                            {paymentMethod === 'Card' && <CheckCircle2 className="text-[#5A5A40]" />}
-                          </label>
+                          <div className="flex gap-4 w-full px-8 pt-4">
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                setIsShowingQR(false);
+                                setQrTimer(null);
+                              }}
+                              className="flex-1 bg-black/5 text-[#1a1a1a] py-3 rounded-xl font-bold hover:bg-black/10 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                            <GradientButton 
+                              onClick={processPayment} 
+                              disabled={isLoading}
+                              className="flex-1"
+                            >
+                              {isLoading ? 'Verifying...' : 'Check Status'}
+                            </GradientButton>
+                          </div>
                         </div>
+                      ) : (
+                        <form onSubmit={handleBookingSubmit} className="space-y-4">
+                          <div className="grid gap-4">
+                            <label className={cn("flex items-center p-4 border rounded-xl cursor-pointer transition-colors", paymentMethod === 'UPI' ? "border-[#5A5A40] bg-[#5A5A40]/5" : "border-black/10 hover:bg-black/5")}>
+                              <input type="radio" required name="payment" value="UPI" onChange={(e) => setPaymentMethod(e.target.value)} className="hidden" />
+                              <Smartphone className="mr-4 text-[#5A5A40]" />
+                              <div className="flex-1">
+                                <p className="font-bold text-[#1a1a1a]">Generate UPI QR Code</p>
+                                <p className="text-xs text-[#1a1a1a]/60">Google Pay, PhonePe, Paytm</p>
+                              </div>
+                              {paymentMethod === 'UPI' && <CheckCircle2 className="text-[#5A5A40]" />}
+                            </label>
 
-                        <div className="flex gap-4 pt-8">
-                          <button 
-                            type="button"
-                            onClick={() => setStep(2)}
-                            className="flex-1 bg-black/5 text-[#1a1a1a] py-4 rounded-xl font-bold"
-                          >
-                            Back
-                          </button>
-                          <GradientButton disabled={isLoading || !paymentMethod} type="submit" className="flex-[2]">
-                            {isLoading ? 'Processing...' : (paymentMethod === 'UPI' ? `Pay ₹${totalAmount.toLocaleString()} via UPI App` : `Pay ₹${totalAmount.toLocaleString()} & Confirm`)}
-                          </GradientButton>
-                        </div>
-                      </form>
+                            <label className={cn("flex items-center p-4 border rounded-xl cursor-pointer transition-colors", paymentMethod === 'Card' ? "border-[#5A5A40] bg-[#5A5A40]/5" : "border-black/10 hover:bg-black/5")}>
+                              <input type="radio" name="payment" value="Card" onChange={(e) => setPaymentMethod(e.target.value)} className="hidden" />
+                              <CreditCard className="mr-4 text-[#5A5A40]" />
+                              <div className="flex-1">
+                                <p className="font-bold text-[#1a1a1a]">Credit / Debit Card</p>
+                                <p className="text-xs text-[#1a1a1a]/60">Visa, Mastercard, RuPay</p>
+                              </div>
+                              {paymentMethod === 'Card' && <CheckCircle2 className="text-[#5A5A40]" />}
+                            </label>
+                          </div>
+
+                          <div className="flex gap-4 pt-8">
+                            <button 
+                              type="button"
+                              onClick={() => setStep(2)}
+                              className="flex-1 bg-black/5 text-[#1a1a1a] py-4 rounded-xl font-bold"
+                            >
+                              Back
+                            </button>
+                            <GradientButton disabled={isLoading || !paymentMethod} type="submit" className="flex-[2]">
+                              {isLoading ? 'Processing...' : (paymentMethod === 'UPI' ? `Generate QR for ₹${totalAmount.toLocaleString()}` : `Pay ₹${totalAmount.toLocaleString()} & Confirm`)}
+                            </GradientButton>
+                          </div>
+                        </form>
+                      )}
                     </motion.div>
                   )}
 

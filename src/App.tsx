@@ -9,7 +9,7 @@ import { Activities } from './components/Activities';
 import { Gallery } from './components/Gallery';
 import { Contact, Footer } from './components/Contact';
 import { BookingSystem } from './components/BookingSystem';
-import { AncientScrollBackground } from './components/AncientScrollBackground';
+import { OrbitBackground } from './components/OrbitBackground';
 import { AdminDashboard } from './components/AdminDashboard';
 import { LegalPages } from './components/LegalPages';
 
@@ -67,8 +67,8 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {!showIntro && !showAdminDashboard && (
-        <AncientScrollBackground>
+      {!showIntro && (
+        <OrbitBackground>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -76,22 +76,27 @@ export default function App() {
           >
             <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
             
-            <main ref={scrollRef}>
-              {sections.map((section) => (
-                <div key={section.id} id={section.id}>
-                  {section.component}
-                </div>
-              ))}
-            </main>
+            {!showAdminDashboard && (
+              <>
+                <main ref={scrollRef}>
+                  {sections.map((section) => (
+                    <div key={section.id} id={section.id}>
+                      {section.component}
+                    </div>
+                  ))}
+                </main>
+                <Footer />
+              </>
+            )}
 
-            <Footer />
             <BookingSystem />
             <LegalPages />
+            <AnimatePresence>
+              {showAdminDashboard && <AdminDashboard onExit={() => setShowAdminDashboard(false)} />}
+            </AnimatePresence>
           </motion.div>
-        </AncientScrollBackground>
+        </OrbitBackground>
       )}
-
-      {showAdminDashboard && <AdminDashboard onExit={() => setShowAdminDashboard(false)} />}
     </div>
   );
 }
