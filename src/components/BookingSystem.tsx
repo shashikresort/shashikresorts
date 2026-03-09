@@ -105,7 +105,7 @@ export const BookingSystem: React.FC = () => {
               initial={{ scale: 0.9, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              className="relative w-full max-w-4xl bg-[#fdfbf7] rounded-[2rem] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]"
+              className="relative w-full max-w-4xl bg-[#fdfbf7] rounded-3xl md:rounded-[2rem] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px] max-h-[90vh]"
             >
               <button 
                 onClick={() => setIsOpen(false)}
@@ -159,7 +159,7 @@ export const BookingSystem: React.FC = () => {
               </div>
 
               {/* Main Form Area */}
-              <div className="flex-1 p-10 overflow-y-auto">
+              <div className="flex-1 p-6 md:p-10 overflow-y-auto">
                 <AnimatePresence mode="wait">
                   {step === 1 && (
                     <motion.div
